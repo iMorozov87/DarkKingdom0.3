@@ -31,9 +31,10 @@ public class EnemySpawnPoint : SpawnPoint
         _activateAllEnemies = StartCoroutine(ActivateAllEnemies());
     }
 
-    private void AddDiedEnemy()
+    private void AddDiedEnemy(Enemy enemy)
     {
         _enemiesDead++;
+        enemy.Die -= AddDiedEnemy;
         if(_enemiesDead >= _enemies.Count)
         {
             _enemiesDead = 0;

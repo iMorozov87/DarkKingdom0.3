@@ -37,7 +37,7 @@ public class Dialog : MonoBehaviour
                 return;
             }
 
-            if (_npc.GetCurrentQuest().IsActive)
+            if (_npc.CurrentQuest.IsActive)
             {
                 _currentSpeeckNPC = _speeckIfQuestIsActive;
             }
@@ -76,27 +76,27 @@ public class Dialog : MonoBehaviour
     {
         if (_currentSpeeckNPC.IsBeginQuest)
         {
-            _currentQuest = _npc.GetCurrentQuest();
+            _currentQuest = _npc.CurrentQuest;
         }
         return _currentQuest;
     }
 
     public void OnBeginNewQuest()
     {
-        _npc.GetCurrentQuest().ActivateQuest();
-        _npc.GetCurrentQuest().ConditionsAreMet += TryChangeCurrentSpeeck;
+        _npc.CurrentQuest.ActivateQuest();
+        _npc.CurrentQuest.ConditionsAreMet += TryChangeCurrentSpeeck;
     }
 
     public void OnBeginSaveQuest()
     {
-        _currentQuest = _npc.GetCurrentQuest();
-        _npc.GetCurrentQuest().ConditionsAreMet += TryChangeCurrentSpeeck;        
+        _currentQuest = _npc.CurrentQuest;
+        _npc.CurrentQuest.ConditionsAreMet += TryChangeCurrentSpeeck;        
     }
 
     public void OnEndQuest()
     {
-        _npc.GetCurrentQuest().ConditionsAreMet -= TryChangeCurrentSpeeck;
-        _npc.GetCurrentQuest().DeactivateQuest();
+        _npc.CurrentQuest.ConditionsAreMet -= TryChangeCurrentSpeeck;
+        _npc.CurrentQuest.DeactivateQuest();
     }
 }
 

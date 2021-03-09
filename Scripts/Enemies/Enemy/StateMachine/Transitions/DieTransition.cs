@@ -24,7 +24,7 @@ public class DieTransition :Transition
         _enemy.Die -= OnDie;
     }
 
-    private void OnDie()
+    private void OnDie(Enemy enemy)
     {
         NeedTransite = true;
     }

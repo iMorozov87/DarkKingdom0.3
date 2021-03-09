@@ -27,7 +27,7 @@ public class EnemyExperienceTransmitter : MonoBehaviour
         _enemy.Die -= ShareExperience;
     }
 
-    private void ShareExperience()
+    private void ShareExperience(Enemy enemy)
     {       
         Player player = _pursuitState.Target;
         player.AddExperience(_enemy.RewardExperience);

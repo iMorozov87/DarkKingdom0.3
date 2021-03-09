@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class DialogStartButton : MonoBehaviour
 {
-    [SerializeField] private Menu _menu;
+    [SerializeField] private PanelDoorman _menu;
     [SerializeField] private GameObject _panel;
     [SerializeField] private DialogDisplay _dialogDisplay;
 

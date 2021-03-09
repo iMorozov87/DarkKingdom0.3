@@ -28,6 +28,7 @@ public class Player : MonoBehaviour, ISavable, ILoadable
     public event UnityAction<int> MaxHealthChanged;
     public event UnityAction<int, int> ExperienceChanged;
     public event UnityAction LevelUpped;
+    public event UnityAction Died;
 
     private void Awake()
     {
@@ -46,6 +47,10 @@ public class Player : MonoBehaviour, ISavable, ILoadable
         Instantiate(_effectBloodTemplate, transform);
         _health -= demage;
         HealthChanged?.Invoke(_health, _maxHealth);
+        if(_health <= 0)
+        {
+            Died?.Invoke();
+        }
     }
 
     public void AddExperience(int rewardExperience)

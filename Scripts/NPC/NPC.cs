@@ -4,18 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(ItemInstanceCreator))] 
+[RequireComponent(typeof(ItemInstanceCreator))]
 public class NPC : MonoBehaviour
 {
     [SerializeField] private string _name;
     [SerializeField] private Dialog _dialog;
-    [SerializeField] private Menu _menu;
+    [SerializeField] private PanelDoorman _menu;
 
     private ItemInstanceCreator _instanceCreator;
     private QuestSource _questSource;
     private Quest _currentQuest;
     private Player _player;
 
+    public Dialog Dialog => _dialog;
+    public Quest CurrentQuest => _currentQuest;
     public string Name => _name;
 
     public event UnityAction<NPC> OpenStartDialogButton;
@@ -23,7 +25,7 @@ public class NPC : MonoBehaviour
 
     private void Awake()
     {
-        _instanceCreator = GetComponent<ItemInstanceCreator>();   
+        _instanceCreator = GetComponent<ItemInstanceCreator>();
     }
 
     private void OnEnable()
@@ -49,15 +51,6 @@ public class NPC : MonoBehaviour
         }
     }
 
-    public Dialog GetDialog()
-    {
-        return _dialog;
-    }
-
-    public Quest GetCurrentQuest()
-    {
-        return _currentQuest;
-    }
 
     private void OnChangedQuest(Quest quest)
     {
@@ -93,7 +86,7 @@ public class NPC : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Player>(out Player player))
-        {            
+        {
             _player = player;
             OpenStartDialogButton?.Invoke(this);
         }

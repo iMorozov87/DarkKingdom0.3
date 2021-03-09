@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class AttackButton : MonoBehaviour
 {
     [SerializeField] private PlayerSpawner _playerSpawner;
+
     private PlayerInput _playerInput;
     private Button _attackButton;
 

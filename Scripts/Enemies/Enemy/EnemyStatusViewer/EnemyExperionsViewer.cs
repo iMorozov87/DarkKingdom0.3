@@ -22,7 +22,7 @@ public class EnemyExperionsViewer : MonoBehaviour
         _enemy.Die -= ShowExperience;
     }
 
-    private void  ShowExperience()
+    private void  ShowExperience(Enemy enemy)
     {        
         _experionsText.gameObject.SetActive(true);
         _experionsText.text = "+ " + _enemy.RewardExperience + " XP";
