@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
         _rewardMoney = rewardMoney;
         _level = level;
     }
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();     

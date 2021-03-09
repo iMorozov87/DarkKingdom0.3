@@ -20,15 +20,36 @@ public class EnemySpawnPoint : SpawnPoint
         {
             for (int j = 0; j < enemiesGroup.MaxNumberEnemies; j++)
             {
-                Enemy newEnemy = Instantiate(enemiesGroup.EnemyPreabs, transform);
-                newEnemy.GetComponent<EnemyParametersSetter>().SetLevel(enemiesGroup.Level);
-                newEnemy.Die += AddDiedEnemy;
+                Enemy newEnemy = CreateEnemy(enemiesGroup.EnemyPrefabs);                
                 _enemies.Add(newEnemy);
             }
         }    
 
         if(_isLopping)
         _activateAllEnemies = StartCoroutine(ActivateAllEnemies());
+    }
+
+    public override void Init(Quest quest)
+    {
+        int numberEnemies = quest.NumberCondition - quest.NumberTakenCondition;
+        foreach (var enemiesGroup in _enemiesGroups)
+        {
+            for (int j = 0; j < enemiesGroup.MaxNumberEnemies; j++)
+            {
+                Enemy newEnemy = CreateEnemy(enemiesGroup.EnemyPrefabs);               
+                QuestObject questObject = newEnemy.gameObject.AddComponent<QuestObject>();
+                questObject.SetQuest(quest);
+                _enemies.Add(newEnemy);
+            }
+        }
+    }
+
+    private Enemy CreateEnemy(Enemy enemyTemplate)
+    {
+        Enemy enemy = Instantiate(enemyTemplate, transform.localPosition, Quaternion.identity);
+        enemy.GetComponent<EnemyParametersSetter>().SetLevel(enemiesGroup.Level);
+        enemy.Die += AddDiedEnemy;
+        return enemy;
     }
 
     private void AddDiedEnemy(Enemy enemy)
@@ -39,24 +60,6 @@ public class EnemySpawnPoint : SpawnPoint
         {
             _enemiesDead = 0;
             AllDead?.Invoke();
-        }
-    }
-
-    public override void Init(Quest quest)
-    {
-        int numberEnemies = quest.NumberCondition - quest.NumberTakenCondition;
-        foreach (var enemiesGroup in _enemiesGroups)
-        {
-            for (int j = 0; j < enemiesGroup.MaxNumberEnemies; j++)
-            {
-                Enemy newEnemy = Instantiate(enemiesGroup.EnemyPreabs, transform.localPosition, Quaternion.identity);
-          
-                newEnemy.GetComponent<EnemyParametersSetter>().SetLevel(enemiesGroup.Level);
-                QuestObject questObject = newEnemy.gameObject.AddComponent<QuestObject>();
-                questObject.SetQuest(quest);
-                newEnemy.Die += AddDiedEnemy;
-                _enemies.Add(newEnemy);
-            }
         }
     }
 
@@ -80,7 +83,7 @@ public class EnemySpawnPoint : SpawnPoint
     [System.Serializable]
     public class EnemiesGroup
     {
-        public Enemy EnemyPreabs;
+        public Enemy EnemyPrefabs;
         public int Level=1;
         public int MaxNumberEnemies;
     }
