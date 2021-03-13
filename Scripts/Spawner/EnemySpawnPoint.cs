@@ -20,7 +20,8 @@ public class EnemySpawnPoint : SpawnPoint
         {
             for (int j = 0; j < enemiesGroup.MaxNumberEnemies; j++)
             {
-                Enemy newEnemy = CreateEnemy(enemiesGroup.EnemyPrefabs);                
+                Enemy newEnemy = CreateEnemy(enemiesGroup.EnemyPrefabs, enemiesGroup.Level);
+                newEnemy.Die += AddDiedEnemy;
                 _enemies.Add(newEnemy);
             }
         }    
@@ -36,7 +37,8 @@ public class EnemySpawnPoint : SpawnPoint
         {
             for (int j = 0; j < enemiesGroup.MaxNumberEnemies; j++)
             {
-                Enemy newEnemy = CreateEnemy(enemiesGroup.EnemyPrefabs);               
+                Enemy newEnemy = CreateEnemy(enemiesGroup.EnemyPrefabs, enemiesGroup.Level);
+                newEnemy.Die += AddDiedEnemy;
                 QuestObject questObject = newEnemy.gameObject.AddComponent<QuestObject>();
                 questObject.SetQuest(quest);
                 _enemies.Add(newEnemy);
@@ -44,11 +46,10 @@ public class EnemySpawnPoint : SpawnPoint
         }
     }
 
-    private Enemy CreateEnemy(Enemy enemyTemplate)
+    private Enemy CreateEnemy(Enemy enemyTemplate, int level)
     {
         Enemy enemy = Instantiate(enemyTemplate, transform.localPosition, Quaternion.identity);
-        enemy.GetComponent<EnemyParametersSetter>().SetLevel(enemiesGroup.Level);
-        enemy.Die += AddDiedEnemy;
+        enemy.GetComponent<EnemyParametersSetter>().SetLevel(level);
         return enemy;
     }
 

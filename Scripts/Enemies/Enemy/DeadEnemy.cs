@@ -10,10 +10,17 @@ public class DeadEnemy : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(0, 0, Random.Range(_minRotation, _maxRotation));
         Destroy(gameObject, _timeDestroy);
+        StartCoroutine(WaitDestruction(_timeDestroy));
     }
 
     public void Init(Vector3 localScale)
     {
         transform.localScale = localScale;
+    }
+
+    private IEnumerator WaitDestruction(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 }
